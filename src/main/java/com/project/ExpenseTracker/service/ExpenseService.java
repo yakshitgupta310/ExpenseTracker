@@ -2,6 +2,7 @@ package com.project.ExpenseTracker.service;
 
 import com.project.ExpenseTracker.entity.Expense;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,4 +20,6 @@ public interface ExpenseService {
     public Expense editExpense(Expense expense, long id);
 
     public List<Expense> getExpensebyNoteKeyword(String keyword);
+
+    public List<Expense> getExpenseByDate(LocalDate date);
 }

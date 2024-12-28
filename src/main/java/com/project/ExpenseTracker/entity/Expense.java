@@ -1,13 +1,9 @@
 package com.project.ExpenseTracker.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
-import java.util.Date;
-
+import java.time.LocalDate;
 
 @Entity
 public class Expense {
@@ -22,8 +18,9 @@ public class Expense {
     private double amount;
 
     private String note;
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date date;
+    @JsonFormat(pattern = "dd/MM/yyyy", timezone = "IST")
+    @Temporal(TemporalType.DATE)
+    private LocalDate date;
 
 
     public String getName() {
@@ -58,11 +55,11 @@ public class Expense {
         this.note = note;
     }
 
-    public java.util.Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(java.util.Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -70,7 +67,7 @@ public class Expense {
 
     }
 
-    public Expense(String Name, String Category, String Note, Double Amount, Date date ){
+    public Expense(String Name, String Category, String Note, Double Amount, LocalDate date ){
         this.amount=Amount;
         this.category=Category;
         this.date=date;
