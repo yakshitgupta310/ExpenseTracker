@@ -22,4 +22,6 @@ public interface ExpenseService {
     public List<Expense> getExpensebyNoteKeyword(String keyword);
 
     public List<Expense> getExpenseByDate(LocalDate date);
+
+    public List<Expense> getExpenseByMonth(int month);
 }

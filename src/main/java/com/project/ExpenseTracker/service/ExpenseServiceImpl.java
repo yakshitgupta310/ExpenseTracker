@@ -78,4 +78,11 @@ public class ExpenseServiceImpl implements ExpenseService{
 
         return Expenses;
     }
+
+    public List<Expense> getExpenseByMonth(int month){
+        List<Expense> Expenses = expenseRepository.findAll().stream().filter(
+                expense -> expense.getDate().getMonthValue() == month).toList();
+
+        return Expenses;
+    }
 }

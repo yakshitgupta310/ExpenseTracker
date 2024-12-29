@@ -39,11 +39,19 @@ public class ExpenseController {
         return expenseService.getExpensebyNoteKeyword(keyword);
     }
 
-    @GetMapping(value="/Expenses")
-    public List<Expense> getExpenseByDate(@RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy")LocalDate date){
+    @GetMapping(value="/Expenses/Date")
+    public List<Expense> getExpenseByDate(@RequestParam("date") @DateTimeFormat(pattern = "dd/MM/yyyy")LocalDate date){
         //java.sql.Date newdate = new java.sql.Date(date.getTime());
         LOGGER.info("SQL Date in controller :" + date);
         return expenseService.getExpenseByDate(date);
+
+    }
+
+    @GetMapping(value="/Expenses/Month")
+    public List<Expense> getExpenseByMonth(@RequestParam("month") int month){
+        //java.sql.Date newdate = new java.sql.Date(date.getTime());
+        LOGGER.info("LocalDate month in controller :" + month);
+        return expenseService.getExpenseByMonth(month);
 
     }
 
