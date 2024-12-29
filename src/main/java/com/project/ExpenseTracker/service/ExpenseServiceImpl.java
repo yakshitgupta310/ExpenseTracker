@@ -28,7 +28,7 @@ public class ExpenseServiceImpl implements ExpenseService{
     }
 
     @Override
-    public Optional<Expense> getExpensebyId(long id) {
+    public Optional<Expense> getExpenseById(long id) {
         return expenseRepository.findById(id);
     }
 
@@ -79,9 +79,14 @@ public class ExpenseServiceImpl implements ExpenseService{
         return Expenses;
     }
 
-    public List<Expense> getExpenseByMonth(int month){
-        List<Expense> Expenses = expenseRepository.findAll().stream().filter(
-                expense -> expense.getDate().getMonthValue() == month).toList();
+    public List<Expense> getExpenseByMonth(int month, Integer year){
+        if(year == null){
+            year=LocalDate.now().getYear();
+        }
+        Integer finalYear = year;
+        List<Expense> Expenses = expenseRepository.findAll().stream()
+                .filter(expense -> expense.getDate().getYear() == finalYear)
+                .filter(expense -> expense.getDate().getMonthValue() == month).toList();
 
         return Expenses;
     }

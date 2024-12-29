@@ -11,7 +11,7 @@ public interface ExpenseService {
 
     public List<Expense> getExpenses();
 
-    public Optional<Expense> getExpensebyId(long id);
+    public Optional<Expense> getExpenseById(long id);
 
     public Expense createExpense(Expense expense);
 
@@ -23,5 +23,5 @@ public interface ExpenseService {
 
     public List<Expense> getExpenseByDate(LocalDate date);
 
-    public List<Expense> getExpenseByMonth(int month);
+    public List<Expense> getExpenseByMonth(int month, Integer year);
 }
