@@ -2,6 +2,9 @@ package com.project.ExpenseTracker.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 
 import java.time.LocalDate;
 
@@ -11,13 +14,19 @@ public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long Id;
+
+    @NotEmpty(message = "Expense Name is mandatory")
     private String name;
 
+    @NotEmpty(message = "Expense category is mandatory")
     private String category;
 
-    private double amount;
+    @NotNull(message = "Expense amount is mandatory")
+    private Double amount;
 
     private String note;
+
+
     @JsonFormat(pattern = "dd/MM/yyyy", timezone = "IST")
     @Temporal(TemporalType.DATE)
     private LocalDate date;
@@ -39,11 +48,11 @@ public class Expense {
         this.category = category;
     }
 
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -85,5 +94,12 @@ public class Expense {
                 ", Note='" + note + '\'' +
                 ", Date=" + date +
                 '}';
+    }
+
+    @PrePersist
+    protected void setDefaultDate(){
+        if(this.getDate()== null){
+            this.setDate(LocalDate.now());
+        }
     }
 }

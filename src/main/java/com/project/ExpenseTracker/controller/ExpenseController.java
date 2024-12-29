@@ -3,6 +3,7 @@ package com.project.ExpenseTracker.controller;
 
 import com.project.ExpenseTracker.entity.Expense;
 import com.project.ExpenseTracker.service.ExpenseService;
+import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
@@ -52,12 +53,10 @@ public class ExpenseController {
         //java.sql.Date newdate = new java.sql.Date(date.getTime());
         LOGGER.info("LocalDate month in controller :" + month);
         return expenseService.getExpenseByMonth(month);
-
     }
 
-
     @PostMapping(value="/Expenses")
-    public Expense createExpense(@RequestBody Expense expense){
+    public Expense createExpense(@RequestBody @Valid Expense expense){
         return expenseService.createExpense(expense);
     }
 
