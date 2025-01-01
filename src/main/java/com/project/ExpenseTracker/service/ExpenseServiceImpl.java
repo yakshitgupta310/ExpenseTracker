@@ -50,14 +50,16 @@ public class ExpenseServiceImpl implements ExpenseService{
 
     @Override
     public Expense editExpense(Expense expense, long id){
+        Optional dateOptional = Optional.ofNullable(expense.getDate());
         return expenseRepository.findById(id).map(
-                expense1 -> {expense1.setCategory(expense.getCategory());
-                             expense1.setDate(expense.getDate());
-                             expense1.setAmount(expense.getAmount());
-                             expense1.setName(expense.getName());
-                             expense1.setNote(expense.getNote());
+                expense1 -> {
+                    expense1.setCategory(expense.getCategory());
+                    if(dateOptional.isPresent()){expense1.setDate(expense.getDate());}
+                    expense1.setAmount(expense.getAmount());
+                    expense1.setName(expense.getName());
+                    expense1.setNote(expense.getNote());
 
-                             return expenseRepository.save(expense1);
+                    return expenseRepository.save(expense1);
                 }
         ).orElseGet(() -> {return expenseRepository.save(expense);});
     }

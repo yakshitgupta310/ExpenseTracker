@@ -45,7 +45,7 @@ public class Expense {
         this.note=Note;
     }
 
-    @PreUpdate
+    //@PreUpdate
     @PrePersist
     protected void setDefaultDate(){
         if(this.getDate()== null){
