@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 
 import java.time.LocalDate;
 
+
 @Entity
+@Data
 public class Expense {
 
     @Id
@@ -26,51 +29,9 @@ public class Expense {
 
     private String note;
 
-
     @JsonFormat(pattern = "dd/MM/yyyy", timezone = "IST")
     @Temporal(TemporalType.DATE)
     private LocalDate date;
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
 
     public Expense(){
 
@@ -84,22 +45,12 @@ public class Expense {
         this.note=Note;
     }
 
-    @Override
-    public String toString() {
-        return "Expense{" +
-                "Id=" + Id +
-                ", Name='" + name + '\'' +
-                ", Category='" + category + '\'' +
-                ", Amount=" + amount +
-                ", Note='" + note + '\'' +
-                ", Date=" + date +
-                '}';
-    }
-
+    @PreUpdate
     @PrePersist
     protected void setDefaultDate(){
         if(this.getDate()== null){
             this.setDate(LocalDate.now());
         }
     }
+
 }
