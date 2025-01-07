@@ -40,7 +40,7 @@ public class ExpenseController {
     @GetMapping(value="/Expenses/{id}")
     public ResponseEntity<?> getExpenseById(@PathVariable("id") long id){
         Optional<Expense> expense= Optional.ofNullable(expenseService.getExpenseById(id)
-                .orElseThrow(() -> new ExpenseNotFoundException("Expense doesn't exist")));
+                .orElseThrow(() -> new ExpenseNotFoundException("Expense not found with id " + id)));
 
         return new ResponseEntity<>(expense, HttpStatus.OK);
     }
