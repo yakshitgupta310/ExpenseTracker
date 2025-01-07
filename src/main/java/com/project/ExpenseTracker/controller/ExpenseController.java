@@ -2,6 +2,7 @@ package com.project.ExpenseTracker.controller;
 
 
 import com.project.ExpenseTracker.entity.Expense;
+import com.project.ExpenseTracker.exception.ExpenseNotFoundException;
 import com.project.ExpenseTracker.service.ExpenseService;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -37,14 +38,11 @@ public class ExpenseController {
 
     //GET Method to retrieve Expense based on Id(Primary Key)
     @GetMapping(value="/Expenses/{id}")
-    public ResponseEntity<Expense> getExpenseById(@PathVariable("id") long id){
-        Optional <Expense> expense= expenseService.getExpenseById(id) ;
-        if(expense.isPresent()){
-            return new ResponseEntity<>(expense.get(), HttpStatus.OK);
-        }
-        else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<?> getExpenseById(@PathVariable("id") long id){
+        Optional<Expense> expense= Optional.ofNullable(expenseService.getExpenseById(id)
+                .orElseThrow(() -> new ExpenseNotFoundException("Expense doesn't exist")));
+
+        return new ResponseEntity<>(expense, HttpStatus.OK);
     }
 
     //GET Method to retrieve all Expenses based on Keyword in the Note column
@@ -67,7 +65,6 @@ public class ExpenseController {
             return new ResponseEntity<>(all, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
     }
 
     //GET Method to retrieve all Expenses for the whole month with optional param of year
@@ -104,7 +101,7 @@ public class ExpenseController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-    }
+        }
 
     //PUT Method to edit an Expense
     @PutMapping(value="/Expenses/{id}")
