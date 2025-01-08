@@ -34,7 +34,6 @@ public class Expense {
     private LocalDate date;
 
     public Expense(){
-
     }
 
     public Expense(String Name, String Category, String Note, Double Amount, LocalDate date ){

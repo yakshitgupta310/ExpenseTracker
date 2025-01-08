@@ -74,7 +74,6 @@ public class ExpenseServiceImpl implements ExpenseService{
 
     @Override
     public List<Expense> getExpenseByDate(LocalDate date) {
-        //LOGGER.info("Requested Date in service :" + date);
         List<Expense> Expenses = expenseRepository.findAll().stream().filter(
                 expense -> expense.getDate().equals(date)).toList();
 

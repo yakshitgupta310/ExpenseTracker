@@ -59,7 +59,6 @@ public class ExpenseController {
     //GET Method to retrieve all Expenses for a specific date
     @GetMapping(value="/Expenses/Date")
     public ResponseEntity<?> getExpenseByDate(@RequestParam("date") @DateTimeFormat(pattern = "dd/MM/yyyy")LocalDate date){
-        //LOGGER.info("SQL Date in controller :" + date);
         List<Expense> all = expenseService.getExpenseByDate(date);
         if(all!=null && !all.isEmpty()){
             return new ResponseEntity<>(all, HttpStatus.OK);
@@ -70,7 +69,6 @@ public class ExpenseController {
     //GET Method to retrieve all Expenses for the whole month with optional param of year
     @GetMapping(value="/Expenses/Month")
     public ResponseEntity<?> getExpenseByMonth(@RequestParam("month") int month, @RequestParam(value = "year", required = false) Integer year){
-        //java.sql.Date newdate = new java.sql.Date(date.getTime());
         LOGGER.info("LocalDate month in controller :" + month);
         LOGGER.info("LocalDate year in controller :" + year);
         List<Expense> all = expenseService.getExpenseByMonth(month, year);
