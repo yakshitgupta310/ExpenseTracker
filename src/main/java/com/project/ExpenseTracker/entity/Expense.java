@@ -18,6 +18,8 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long Id;
 
+//    private String username;
+
     @NotEmpty(message = "Expense Name is mandatory")
     private String name;
 
