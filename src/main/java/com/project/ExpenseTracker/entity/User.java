@@ -1,8 +1,6 @@
 package com.project.ExpenseTracker.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -10,11 +8,17 @@ import lombok.Data;
 @Table(name = "Users")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long Id;
+
+    @Column(name = "firstname")
     private String firstName;
 
-    @Id
+    @Column(name = "username", unique = true)
     private String userName;
 
+    @Column(name = "password")
     private String password;
 
     private String role;
