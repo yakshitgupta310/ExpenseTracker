@@ -10,10 +10,15 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 
 @Configuration
 @EnableWebSecurity
@@ -23,17 +28,23 @@ public class WebSecurityConfig {
     @Autowired
     UserDetailsService CustomUserDetailsService;
 
+    //private final HandlerLogout handlerLogout;
+
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-
-        httpSecurity
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
+        http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(request -> request.requestMatchers("register", "login").permitAll()
                         .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults());
 
-        return httpSecurity.build();
+                .httpBasic(Customizer.withDefaults());
+        http.securityContext((context) -> context.securityContextRepository(securityContextRepository));
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+
+        
+        return http.build();
 
     }
 
