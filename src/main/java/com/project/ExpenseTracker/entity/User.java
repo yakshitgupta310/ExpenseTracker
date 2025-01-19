@@ -3,6 +3,8 @@ package com.project.ExpenseTracker.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "Users")
@@ -24,5 +26,8 @@ public class User {
     private String role;
 
     private boolean isEnabled = true;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Expense> expenses;
 
 }

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 public class ApiErrorResponse {
 
     private LocalDateTime timestamp;
-    private String message;
+    private List<String> message;
     private String summary;
 
 }

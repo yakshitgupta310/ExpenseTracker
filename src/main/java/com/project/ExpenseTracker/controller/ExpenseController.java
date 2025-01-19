@@ -3,6 +3,7 @@ package com.project.ExpenseTracker.controller;
 
 import com.project.ExpenseTracker.entity.Expense;
 import com.project.ExpenseTracker.exception.ExpenseNotFoundException;
+import com.project.ExpenseTracker.model.ExpenseModel;
 import com.project.ExpenseTracker.service.ExpenseService;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -80,13 +81,13 @@ public class ExpenseController {
 
     //POST Method to create an Expense
     @PostMapping(value="/Expenses")
-    public ResponseEntity<Expense> createExpense(@RequestBody @Valid Expense expense){
+    public ResponseEntity<?> createExpense(@RequestBody @Valid ExpenseModel expense){
         try{
             expenseService.createExpense(expense);
             return new ResponseEntity<>(expense, HttpStatus.CREATED);
         }
         catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 

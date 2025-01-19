@@ -43,7 +43,7 @@ public class WebSecurityConfig {
         http.securityContext((context) -> context.securityContextRepository(securityContextRepository));
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
 
-        
+
         return http.build();
 
     }

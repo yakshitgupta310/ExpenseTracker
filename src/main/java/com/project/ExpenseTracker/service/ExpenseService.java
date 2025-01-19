@@ -1,6 +1,7 @@
 package com.project.ExpenseTracker.service;
 
 import com.project.ExpenseTracker.entity.Expense;
+import com.project.ExpenseTracker.model.ExpenseModel;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,7 +14,7 @@ public interface ExpenseService {
 
     public Optional<Expense> getExpenseById(long id);
 
-    public Expense createExpense(Expense expense);
+    public ExpenseModel createExpense(ExpenseModel expense);
 
     public String deleteExpense(long id);
 

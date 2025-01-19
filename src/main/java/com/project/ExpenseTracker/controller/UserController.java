@@ -22,7 +22,7 @@ public class UserController {
         return new ResponseEntity<>("Registered successfully!!", HttpStatus.CREATED);
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<?> UserLogin(@RequestHeader(HttpHeaders.AUTHORIZATION) String AuthToken){
         User LoggedInUser = userService.loginUser(AuthToken);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

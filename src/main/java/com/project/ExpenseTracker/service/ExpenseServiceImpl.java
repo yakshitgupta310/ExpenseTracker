@@ -2,7 +2,14 @@ package com.project.ExpenseTracker.service;
 
 import com.project.ExpenseTracker.controller.ExpenseController;
 import com.project.ExpenseTracker.entity.Expense;
+import com.project.ExpenseTracker.entity.User;
+import com.project.ExpenseTracker.model.ExpenseModel;
 import com.project.ExpenseTracker.repository.ExpenseRepository;
+import com.project.ExpenseTracker.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,7 +22,12 @@ import org.slf4j.LoggerFactory;
 @Service
 public class ExpenseServiceImpl implements ExpenseService{
 
+
+    @Autowired
     private ExpenseRepository expenseRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     private final Logger LOGGER = LoggerFactory.getLogger(ExpenseController.class);
 
@@ -24,6 +36,9 @@ public class ExpenseServiceImpl implements ExpenseService{
     }
     @Override
     public List<Expense> getExpenses() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        System.out.println(userDetails.getUsername());
         return expenseRepository.findAll();
     }
 
@@ -33,8 +48,20 @@ public class ExpenseServiceImpl implements ExpenseService{
     }
 
     @Override
-    public Expense createExpense(Expense expense) {
-        return expenseRepository.save(expense);
+    public ExpenseModel createExpense(ExpenseModel expense) {
+        Expense newExpense = new Expense();
+        newExpense.setName(expense.getName());
+        newExpense.setCategory(expense.getCategory());
+        newExpense.setAmount(expense.getAmount());
+        newExpense.setDate(expense.getDate());
+        newExpense.setNote(expense.getNote());
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        Optional<User> user = userRepository.findByuserName(userDetails.getUsername());
+        newExpense.setUser(user.get());
+        expenseRepository.save(newExpense);
+        return expense;
     }
 
     @Override

@@ -18,21 +18,20 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long Id;
 
-//    private String username;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
-    @NotEmpty(message = "Expense Name is mandatory")
     private String name;
 
-    @NotEmpty(message = "Expense category is mandatory")
+
     private String category;
 
-    @NotNull(message = "Expense amount is mandatory")
+
     private Double amount;
 
     private String note;
 
-    @JsonFormat(pattern = "dd/MM/yyyy", timezone = "IST")
-    @Temporal(TemporalType.DATE)
     private LocalDate date;
 
     public Expense(){
