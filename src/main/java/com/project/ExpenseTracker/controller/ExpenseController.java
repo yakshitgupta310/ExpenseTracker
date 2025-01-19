@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class ExpenseController {
@@ -31,10 +32,8 @@ public class ExpenseController {
     @GetMapping(value="/Expenses/all")
     public ResponseEntity<?> getExpenses(){
         List<Expense> all =  expenseService.getExpenses();
-        if(all!=null && !all.isEmpty() ){
-            return new ResponseEntity<>(all, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        List<ExpenseModel> output = all.stream().map(expense -> new ExpenseModel(expense.getName(), expense.getCategory(), expense.getAmount(), expense.getNote(), expense.getDate() )).collect(Collectors.toList());
+        return new ResponseEntity<>(output, HttpStatus.OK);
     }
 
     //GET Method to retrieve Expense based on Id(Primary Key)
@@ -51,8 +50,9 @@ public class ExpenseController {
     public ResponseEntity<?> getExpensebyNoteKeyword(@PathVariable("keyword") String keyword){
         LOGGER.info("Parameter passed as part of Json Body :" + keyword);
         List<Expense> all = expenseService.getExpensebyNoteKeyword(keyword);
-        if(all!=null && !all.isEmpty()){
-            return new ResponseEntity<>(all, HttpStatus.OK);
+        List<ExpenseModel> output = all.stream().map(expense -> new ExpenseModel(expense.getName(), expense.getCategory(), expense.getAmount(), expense.getNote(), expense.getDate() )).collect(Collectors.toList());
+        if(output!=null && !output.isEmpty()){
+            return new ResponseEntity<>(output, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -61,8 +61,9 @@ public class ExpenseController {
     @GetMapping(value="/Expenses/Date")
     public ResponseEntity<?> getExpenseByDate(@RequestParam("date") @DateTimeFormat(pattern = "dd/MM/yyyy")LocalDate date){
         List<Expense> all = expenseService.getExpenseByDate(date);
-        if(all!=null && !all.isEmpty()){
-            return new ResponseEntity<>(all, HttpStatus.OK);
+        List<ExpenseModel> output = all.stream().map(expense -> new ExpenseModel(expense.getName(), expense.getCategory(), expense.getAmount(), expense.getNote(), expense.getDate() )).collect(Collectors.toList());
+        if(output!=null && !output.isEmpty()){
+            return new ResponseEntity<>(output, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -73,7 +74,8 @@ public class ExpenseController {
         LOGGER.info("LocalDate month in controller :" + month);
         LOGGER.info("LocalDate year in controller :" + year);
         List<Expense> all = expenseService.getExpenseByMonth(month, year);
-        if(all!=null && !all.isEmpty()){
+        List<ExpenseModel> output = all.stream().map(expense -> new ExpenseModel(expense.getName(), expense.getCategory(), expense.getAmount(), expense.getNote(), expense.getDate() )).collect(Collectors.toList());
+        if(output!=null && !output.isEmpty()){
             return new ResponseEntity<>(all, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

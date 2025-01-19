@@ -38,8 +38,10 @@ public class ExpenseServiceImpl implements ExpenseService{
     public List<Expense> getExpenses() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
-        System.out.println(userDetails.getUsername());
-        return expenseRepository.findAll();
+        Optional<User> user = userRepository.findByuserName(userDetails.getUsername());
+        List<Expense> expenses = expenseRepository.getExpensesByUserId(user.get().getId());
+
+        return expenses;
     }
 
     @Override
@@ -93,7 +95,11 @@ public class ExpenseServiceImpl implements ExpenseService{
 
     @Override
     public List<Expense> getExpensebyNoteKeyword(String keyword){
-        List<Expense> Expenses = expenseRepository.findAll().stream().filter(
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        Optional<User> user = userRepository.findByuserName(userDetails.getUsername());
+        List<Expense> expenses = expenseRepository.getExpensesByUserId(user.get().getId());
+        List<Expense> Expenses = expenses.stream().filter(
                 expense -> expense.getNote().contains(keyword)).toList();
 
         return Expenses;
@@ -101,7 +107,11 @@ public class ExpenseServiceImpl implements ExpenseService{
 
     @Override
     public List<Expense> getExpenseByDate(LocalDate date) {
-        List<Expense> Expenses = expenseRepository.findAll().stream().filter(
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        Optional<User> user = userRepository.findByuserName(userDetails.getUsername());
+        List<Expense> expenses = expenseRepository.getExpensesByUserId(user.get().getId());
+        List<Expense> Expenses = expenses.stream().filter(
                 expense -> expense.getDate().equals(date)).toList();
 
         return Expenses;
@@ -112,7 +122,11 @@ public class ExpenseServiceImpl implements ExpenseService{
             year=LocalDate.now().getYear();
         }
         Integer finalYear = year;
-        List<Expense> Expenses = expenseRepository.findAll().stream()
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        Optional<User> user = userRepository.findByuserName(userDetails.getUsername());
+        List<Expense> expenses = expenseRepository.getExpensesByUserId(user.get().getId());
+        List<Expense> Expenses = expenses.stream()
                 .filter(expense -> expense.getDate().getYear() == finalYear)
                 .filter(expense -> expense.getDate().getMonthValue() == month).toList();
 

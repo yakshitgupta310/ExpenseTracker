@@ -19,7 +19,7 @@ public class Expense {
     private long Id;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="userid")
     private User user;
 
     private String name;
