@@ -3,6 +3,7 @@ package com.project.ExpenseTracker.service;
 import com.project.ExpenseTracker.entity.User;
 import com.project.ExpenseTracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,6 +13,8 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     @Override
     public User registerUser(User user) throws RuntimeException{
@@ -23,7 +26,7 @@ public class UserServiceImpl implements UserService{
         User newUser = new User();
         newUser.setUserName(user.getUserName());
         newUser.setFirstName(user.getFirstName());
-        newUser.setPassword(user.getPassword());
+        newUser.setPassword(encoder.encode(user.getPassword()));
         newUser.setRole("USER");
         userRepository.save(newUser);
         return newUser;
